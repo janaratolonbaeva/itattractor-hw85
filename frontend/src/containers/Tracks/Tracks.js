@@ -1,16 +1,18 @@
 import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from "react-redux";
-import {fetchTracks} from "../../store/actions/trackActions";
+import {fetchTracksOfAlbum} from "../../store/actions/trackActions";
 import {Grid} from "@material-ui/core";
 import TrackItem from "../../components/TrackItem/TrackItem";
 
-const Tracks = () => {
+const Tracks = ({match}) => {
   const dispatch = useDispatch();
   const tracks = useSelector(state => state.tracks.tracks);
 
+  const id = match.params.id;
+
   useEffect(() => {
-    dispatch(fetchTracks());
-  }, [dispatch]);
+    dispatch(fetchTracksOfAlbum(id));
+  }, [dispatch, id]);
 
   console.log(tracks);
 

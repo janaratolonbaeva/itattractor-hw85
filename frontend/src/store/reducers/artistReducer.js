@@ -1,7 +1,7 @@
 import {GET_ARTISTS_SUCCESS} from "../actions/artistActions";
 
 const initialState = {
-  artists: '',
+  artists: null,
 }
 
 const artistReducer = (state = initialState, action) => {

@@ -1,51 +1,69 @@
 import React from 'react';
 import {Link} from "react-router-dom";
-import {makeStyles} from '@material-ui/core/styles';
-import Card from '@material-ui/core/Card';
-import CardActionArea from '@material-ui/core/CardActionArea';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
-import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
 import {apiURL} from "../../config";
+import {
+  makeStyles,
+  Grid,
+  Typography,
+  Button,
+  CardMedia,
+  CardContent,
+  CardActions,
+  Card,
+  CardActionArea
+} from "@material-ui/core";
 
 const useStyles = makeStyles({
-  root: {
-    width: 345,
-    margin: '0 10px 10px'
+  card: {
+    width: '90%',
+    margin: '0 10px 10px',
+    height: '100%'
   },
   media: {
-    height: 140,
+    height: 0,
+    paddingTop: '56.25%',
+    backgroundPosition: 'top'
   },
 });
 
 const Item = (props) => {
   const classes = useStyles();
 
+  let button = (
+    <Button size="small" color="primary" component={Link} to={props.url}>
+      Learn More
+    </Button>
+  );
+
+  if (props.onClick) {
+    button = (<Button size="small" color="primary" onClick={props.onClick}>
+      Learn More
+    </Button>)
+  }
+
   return (
-    <Card className={classes.root}>
-      <CardActionArea>
-        <CardMedia
-          className={classes.media}
-          image={`${apiURL}/uploads/${props.media}`}
-          title={props.name}
-        />
-        <CardContent>
-          <Typography gutterBottom variant="h5" component="h2">
-            {props.name}
-          </Typography>
-          <Typography variant="body2" color="textSecondary" component="p">
-            {props.info}
-          </Typography>
-        </CardContent>
-      </CardActionArea>
-      <CardActions>
-        <Button size="small" color="primary" component={Link} to={props.url}>
-          Learn More
-        </Button>
-      </CardActions>
-    </Card>
+    <Grid item xs={6} md={4}>
+      <Card className={classes.card}>
+        <CardActionArea onClick={props.clickContent}>
+          <CardMedia
+            className={classes.media}
+            image={`${apiURL}/${props.media}`}
+            title={props.name}
+          />
+          <CardContent>
+            <Typography gutterBottom variant="h5" component="h2">
+              {props.name}
+            </Typography>
+            <Typography variant="body2" color="textSecondary" component="p">
+              {props.info}
+            </Typography>
+          </CardContent>
+        </CardActionArea>
+        <CardActions>
+          {button}
+        </CardActions>
+      </Card>
+    </Grid>
   );
 }
 

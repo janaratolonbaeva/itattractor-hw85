@@ -8,7 +8,14 @@ const UserSchema = new mongoose.Schema({
 	username: {
 		type: String,
 		required: true,
-		unique: true
+		unique: true,
+		validate: {
+			validator: async value => {
+				const user = await User.findOne({username: value});
+				return !user;
+			},
+			message: 'This is already registered'
+		}
 	},
 	password: {
 		type: String,
@@ -17,6 +24,12 @@ const UserSchema = new mongoose.Schema({
 	token: {
 		type: String,
 		required: true
+	},
+	role: {
+		type: String,
+		required: true,
+		default: 'user',
+		enum: ['user', 'admin']
 	}
 });
 

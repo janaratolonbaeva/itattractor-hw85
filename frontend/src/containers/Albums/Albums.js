@@ -21,10 +21,11 @@ const Albums = ({match}) => {
           return (
             <Item
               key={item._id}
-              url={`/tracks/${item._id}`}
+              url={`/albums/${item._id}`}
               media={item.image}
               name={item.name}
               info={item.yearIssue}
+              clickContent={() => {return}}
             />
           )}) : null}
       </Grid>

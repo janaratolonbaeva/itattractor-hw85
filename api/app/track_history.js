@@ -4,6 +4,21 @@ const User = require('../models/User');
 
 const router = express.Router();
 
+router.get('/', async (req, res) => {
+	try {
+		const criteria = {};
+
+		if (req.query.user) {
+			criteria.user = req.query.user;
+		}
+
+		const tracks = await TrackHistory.find(criteria).populate('track', 'title');
+		res.send(tracks);
+	} catch (e) {
+		res.sendStatus(500);
+	}
+});
+
 router.post('/', async (req, res) => {
 	const token = req.get('Authorization');
 

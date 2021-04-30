@@ -19,7 +19,7 @@ const Home = () => {
           return (
             <Item
               key={item._id}
-              url={`/albums/${item._id}`}
+              url={`/artists/${item._id}`}
               media={item.photo}
               name={item.name}
               info={item.info}

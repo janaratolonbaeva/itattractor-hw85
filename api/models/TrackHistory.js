@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const moment = require('moment');
+const now = moment();
 
 const TrackHistorySchema = new mongoose.Schema({
 	user: {
@@ -14,6 +15,7 @@ const TrackHistorySchema = new mongoose.Schema({
 	},
 	datetime: {
 		type: String,
+		default: now.format('dddd, MMMM Do YYYY, h:mm:ss a'),
 		required: true
 	}
 });

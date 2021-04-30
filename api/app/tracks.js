@@ -1,6 +1,20 @@
 const express = require('express');
+const {nanoid} = require('nanoid');
+const path = require('path');
+const multer = require('multer');
+const config = require('../config');
 const Track = require('../models/Track');
-const Album = require('../models/Album');
+
+const storage = multer.diskStorage({
+	destination: (req, file, cb) => {
+		cb(null, config.uploadPath);
+	},
+	filename: (req, file, cb) => {
+		cb(null, nanoid() + path.extname(file.originalname));
+	}
+});
+
+const upload = multer({storage});
 
 const router = express.Router();
 
@@ -12,18 +26,22 @@ router.get('/', async (req, res) => {
 			criteria.album = req.query.album;
 		}
 
-		const tracks = await Track.find(criteria).sort({}).populate('album', 'title artist');
+		const tracks = await Track.find(criteria).sort({number: 1}).populate('album', 'title artist');
 		res.send(tracks);
 	} catch (e) {
 		res.sendStatus(500);
 	}
 });
 
-router.post('/', async (req, res) => {
+router.post('/', upload.single('image'), async (req, res) => {
 	try {
 		const trackData = req.body;
-		const track = new Track(trackData);
 
+		if (req.file) {
+			trackData.image = req.file.filename;
+		}
+
+		const track = new Track(trackData);
 		await track.save();
 		res.send(track);
 	} catch (e) {
@@ -33,10 +51,10 @@ router.post('/', async (req, res) => {
 
 router.get('/:id', async (req, res) => {
 	try {
-		const tracks = Track.findOne({album: req.params.id}).populate('album', 'title');
-
-		if (tracks) {
-			res.send(tracks);
+		const track = await Track.findOne({_id: req.params.id}).populate('album', 'title')
+		console.log(track);
+		if (track) {
+			res.send(track);
 		} else {
 			res.sendStatus(400);
 		}

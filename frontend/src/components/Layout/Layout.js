@@ -6,9 +6,11 @@ const Layout = (props) => {
   return (
     <>
       <Header/>
-      <Container maxWidth="lg">
-        {props.children}
-      </Container>
+      <main>
+        <Container maxWidth="lg">
+          {props.children}
+        </Container>
+      </main>
     </>
   );
 };

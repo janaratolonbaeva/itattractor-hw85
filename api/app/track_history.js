@@ -12,7 +12,7 @@ router.get('/', async (req, res) => {
 			criteria.user = req.query.user;
 		}
 
-		const tracks = await TrackHistory.find(criteria).populate('track', 'title');
+		const tracks = await TrackHistory.find(criteria).populate('track', 'title').populate('album', 'title').populate('artist', 'name');
 		res.send(tracks);
 	} catch (e) {
 		res.sendStatus(500);
@@ -23,7 +23,7 @@ router.post('/', async (req, res) => {
 	const token = req.get('Authorization');
 
 	if (!token) {
-		return res.status(401).send({error: 'No present token or track!'});
+		return res.status(401).send({error: 'No present token or the track!'});
 	}
 
 	const userData = await User.findOne({token});
@@ -41,5 +41,20 @@ router.post('/', async (req, res) => {
 
 	return res.send({message: 'Correct token', trackHistory});
 });
+
+router.get('/:id', async (req, res) => {
+	try {
+		const track = await TrackHistory.findOne({_id: req.params.id}).populate('track', 'title youtubeId');
+
+		if (track) {
+			res.send(track);
+		} else {
+			res.sendStatus(400);
+		}
+	} catch (e) {
+		res.sendStatus(500);
+	}
+});
+
 
 module.exports = router;

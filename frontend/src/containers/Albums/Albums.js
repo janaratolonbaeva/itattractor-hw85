@@ -17,17 +17,19 @@ const Albums = ({match}) => {
   return (
     <>
       <Grid container justify="space-between">
-        {albums ? Object.values(albums).map((item) => {
+        {albums && Object.values(albums).map((item) => {
           return (
             <Item
               key={item._id}
-              url={`/albums/${item._id}`}
+              url1={`/albums/${item._id}`}
+              url2={'/add-track'}
               media={item.image}
-              name={item.name}
+              name={item.title}
               info={item.yearIssue}
               clickContent={() => {return}}
+              btnText='see tracks'
             />
-          )}) : null}
+          )})}
       </Grid>
     </>
   );

@@ -4,7 +4,7 @@ import {Link as RouterLink} from 'react-router-dom';
 import {Avatar, Container, Grid, Link, makeStyles, Typography} from "@material-ui/core";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import {registerUser} from "../../store/actions/usersActions";
-import FormElement from "../../components/FormElement/FormElement";
+import FormElement from "../../components/Form/FormElement";
 import ButtonWithProgress from "../../components/ButtonWithProgress/ButtonWithProgress";
 
 const useStyles = makeStyles(theme => ({

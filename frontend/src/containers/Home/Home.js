@@ -15,16 +15,18 @@ const Home = () => {
   return (
     <>
         <Grid container justify="space-between">
-        {artists ? Object.values(artists).map((item) => {
+        {artists && Object.values(artists).map((item) => {
           return (
             <Item
               key={item._id}
-              url={`/artists/${item._id}`}
+              url1={`/artists/${item._id}`}
+              url2={`/add-album`}
               media={item.photo}
               name={item.name}
               info={item.info}
+              btnText="see albums"
             />
-          )}): null}
+          )})}
         </Grid>
     </>
   );

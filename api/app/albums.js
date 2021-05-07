@@ -35,6 +35,20 @@ router.get('/', async (req, res) => {
 
 router.post('/', upload.single('image'), async (req, res) => {
 	try {
+		const token = req.get('Authorization');
+
+		if (!token) {
+			return res.status(401).send({error: 'No present token or album!'});
+		}
+
+		const userData = await User.findOne({token});
+
+		if (!userData) {
+			return res.status(401).send({error: 'Wrong token!'});
+		}
+
+		const user = userData._id;
+
 		const albumData = req.body;
 
 		if (req.file) {
@@ -42,6 +56,7 @@ router.post('/', upload.single('image'), async (req, res) => {
 		}
 
 		const album = new Album(albumData);
+		album.user = user;
 		await album.save();
 		res.send(album);
 	} catch (e) {

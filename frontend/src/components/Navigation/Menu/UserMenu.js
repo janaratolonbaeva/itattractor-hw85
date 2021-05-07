@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {useDispatch} from "react-redux";
 import {Button, Menu, MenuItem} from "@material-ui/core";
 import {logoutUser} from "../../../store/actions/usersActions";
+import {Link} from "react-router-dom";
 
 const UserMenu = ({user}) => {
   const dispatch = useDispatch();
@@ -30,6 +31,9 @@ const UserMenu = ({user}) => {
       >
         <MenuItem>Profile</MenuItem>
         <MenuItem>My Account</MenuItem>
+        <MenuItem component={Link} to="/add-artist">Add Artist</MenuItem>
+        <MenuItem component={Link} to="/add-album">Add Album</MenuItem>
+        <MenuItem component={Link} to="/add-track">Add Track</MenuItem>
         <MenuItem onClick={() => dispatch(logoutUser())}>Logout</MenuItem>
       </Menu>
     </>

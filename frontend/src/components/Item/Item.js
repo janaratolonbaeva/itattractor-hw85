@@ -14,6 +14,9 @@ import {
 } from "@material-ui/core";
 
 const useStyles = makeStyles({
+  root: {
+    marginBottom: '20px'
+  },
   card: {
     width: '90%',
     margin: '0 10px 10px',
@@ -23,26 +26,28 @@ const useStyles = makeStyles({
     height: 0,
     paddingTop: '56.25%',
     backgroundPosition: 'top'
-  },
+  }
 });
 
 const Item = (props) => {
   const classes = useStyles();
 
   let button = (
-    <Button size="small" color="primary" component={Link} to={props.url}>
-      Learn More
-    </Button>
+    <CardActions>
+      <Button size="small" color="primary" component={Link} to={props.url1}>
+        {props.btnText}
+      </Button>
+    </CardActions>
   );
 
   if (props.onClick) {
     button = (<Button size="small" color="primary" onClick={props.onClick}>
-      Learn More
+      Open in youtube
     </Button>)
   }
 
   return (
-    <Grid item xs={6} md={4}>
+    <Grid item xs={6} md={4} className={classes.root}>
       <Card className={classes.card}>
         <CardActionArea onClick={props.clickContent}>
           <CardMedia
@@ -59,9 +64,7 @@ const Item = (props) => {
             </Typography>
           </CardContent>
         </CardActionArea>
-        <CardActions>
-          {button}
-        </CardActions>
+        {button}
       </Card>
     </Grid>
   );

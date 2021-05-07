@@ -4,6 +4,7 @@ const multer = require('multer');
 const {nanoid} = require('nanoid');
 const Artist = require('../models/Artist');
 const config = require('../config');
+const User = require("../models/User");
 
 const storage = multer.diskStorage({
 	destination: (req, file, cb) => {
@@ -29,13 +30,27 @@ router.get('/', async (req, res) => {
 
 router.post('/', upload.single('photo'), async (req, res) => {
 	try {
+		const token = req.get('Authorization');
+
+		if (!token) {
+			return res.status(401).send({error: 'No present token or artist!'});
+		}
+
+		const userData = await User.findOne({token});
+
+		if (!userData) {
+			return res.status(401).send({error: 'Wrong token!'});
+		}
+
+		const user = userData._id;
 		const artistData = req.body;
 
 		if (req.file) {
-			artistData.photo = req.file.filename;
+			artistData.photo = 'uploads/' + req.file.filename;
 		}
 
 		const artist = new Artist(artistData);
+		artist.user = user;
 		await artist.save();
 		res.send(artist);
 	} catch (e) {

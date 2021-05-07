@@ -43,12 +43,10 @@ const Tracks = ({match}) => {
     console.log('add');
   }
 
-  console.log(track);
-
   return (
     <>
       <Grid container justify="space-between">
-        {tracks ? Object.values(tracks).map(item => {
+        {tracks && Object.values(tracks).map(item => {
           return (
             <Item
               key={item._id}
@@ -58,7 +56,7 @@ const Tracks = ({match}) => {
               onClick={() => {openModal(item._id)}}
               clickContent={addToTrackHistory}
             />
-          )}) : null}
+          )})}
       </Grid>
       {track && (<Modal
         className={classes.modal}
@@ -72,11 +70,13 @@ const Tracks = ({match}) => {
       >
         <Fade in={open}>
           <iframe
-            width="420"
+            width="560"
             height="315"
-            src={track.youtubeId + '?autoplay=1'}
+            src={track.youtubeId}
             frameBorder="0"
-            title={track.title}
+            title="YouTube video player"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen
           />
         </Fade>
       </Modal>)}

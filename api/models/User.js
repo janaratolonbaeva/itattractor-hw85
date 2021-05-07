@@ -10,11 +10,15 @@ const UserSchema = new mongoose.Schema({
 		required: true,
 		unique: true,
 		validate: {
-			validator: async value => {
-				const user = await User.findOne({username: value});
-				return !user;
+			validator: async function(value) {
+				if (this.isModified('username')) {
+					const user = await User.findOne({username: value});
+					return !user;
+				}
+
+				return true;
 			},
-			message: 'This is already registered'
+			message: 'This user is already registered'
 		}
 	},
 	password: {
@@ -33,7 +37,7 @@ const UserSchema = new mongoose.Schema({
 	}
 });
 
-UserSchema.pre('save', async function (next) {
+UserSchema.pre('save', async function(next) {
 	if (!this.isModified('password')) return next();
 
 	const salt = await bcrypt.genSalt(SALT_WORK_FACTOR);
@@ -45,19 +49,19 @@ UserSchema.pre('save', async function (next) {
 });
 
 UserSchema.set('toJSON', {
-	transform: (doc, ret, option) => {
+	transform: (doc, ret, options) => {
 		delete ret.password;
 		return ret;
 	}
 });
 
-UserSchema.methods.checkPassword = function (password) {
-	return bcrypt.compare(password, this.password)
+UserSchema.methods.checkPassword = function(password) {
+	return bcrypt.compare(password, this.password);
 };
 
-UserSchema.methods.generateToken = function () {
+UserSchema.methods.generateToken = function() {
 	this.token = nanoid();
-}
+};
 
 const User = mongoose.model('User', UserSchema);
 

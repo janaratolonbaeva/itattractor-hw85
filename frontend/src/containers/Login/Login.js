@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {Avatar, Container, Grid, Link, makeStyles, Typography} from "@material-ui/core";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
-import FormElement from "../../components/FormElement/FormElement";
+import FormElement from "../../components/Form/FormElement";
 import {Link as RouterLink} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {loginUser} from "../../store/actions/usersActions";

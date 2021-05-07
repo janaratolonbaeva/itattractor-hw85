@@ -3,8 +3,8 @@ import ReactDOM from 'react-dom';
 import {Provider} from "react-redux";
 import {Router} from "react-router-dom";
 import {MuiThemeProvider} from "@material-ui/core";
-import {store} from './store/configureStore';
 import history from "./history";
+import {store} from './store/configureStore';
 import theme from "./theme";
 import App from './App';
 
